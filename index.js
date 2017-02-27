@@ -18,7 +18,8 @@ var client = new Twitter({
 
 client.stream('statuses/filter', {track: queryString}, function(stream){
   stream.on('data', function(tweet) {
-    var mText = tweet.text.replace(/RT/g, "").replace(/[{}<>().?!,;\-#]/g, "").replace(/@\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/\s+/g, " ").trim();
+    var mText = tweet.text.replace(/RT /g, "").replace(/["{}<>().…?!,;\-#]/g, "").replace(/@\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2").replace(/distance relationship/ig, "distance").replace(/\s+/g, " ").trim();
+
     console.log(mText);
   });
 
