@@ -1,0 +1,21 @@
+{
+  "name": "aftwitterstream",
+  "version": "0.0.1",
+  "description": "twitter stream service for fetching tweets using api 1.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/astrovandalistas/AFTwitterStream.git"
+  },
+  "author": "Astrovandalistas",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1",
+    "twitter": "^1.7.0"
+  }
+}
