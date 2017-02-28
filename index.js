@@ -37,7 +37,7 @@ var client = new Twitter({
 
 client.stream('statuses/filter', {track: queryString, language: "en"}, function(stream){
   stream.on('data', function(tweet) {
-    var mText = tweet.text.replace(/RT /g, "").replace(/["{}<>().…?!,;\-]/g, "").replace(/[#@]\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2").replace(/in a long distance relationship/ig, "distant").replace(/a long distance relationship/ig, "distance").replace(/\s+/g, " ").trim();
+    var mText = tweet.text.replace(/RT /g, "").replace(/["{}<>().…?!,;|\-]/g, "").replace(/[#@]\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2").replace(/in a long distance relationship/ig, "distant").replace(/a long distance relationship/ig, "distance").replace(/\s+/g, " ").trim();
 
     if(mQueue.length < QUEUE_SIZE) {
       mQueue.push(mText);
