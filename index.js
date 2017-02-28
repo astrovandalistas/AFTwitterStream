@@ -8,7 +8,7 @@ var port = process.env.PORT || 8080;
 var app = express();
 
 // https://dev.twitter.com/streaming/overview/request-parameters
-var queryString = "alienating, hatemyjob, distance relationship";
+var queryString = "alienating, hate my job, distance relationship, capitalism jobs, art money";
 
 var insertIndex = 0;
 var popIndex = 0;
@@ -27,9 +27,9 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-client.stream('statuses/filter', {track: queryString}, function(stream){
+client.stream('statuses/filter', {track: queryString, language: "en"}, function(stream){
   stream.on('data', function(tweet) {
-    var mText = tweet.text.replace(/RT /g, "").replace(/["{}<>().…?!,;\-#]/g, "").replace(/@\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2").replace(/in a long distance relationship/ig, "distant").replace(/a long distance relationship/ig, "distance").replace(/\s+/g, " ").trim();
+    var mText = tweet.text.replace(/RT /g, "").replace(/["{}<>().…?!,;\-]/g, "").replace(/[#@]\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2").replace(/in a long distance relationship/ig, "distant").replace(/a long distance relationship/ig, "distance").replace(/\s+/g, " ").trim();
 
     if(mQueue.length < QUEUE_SIZE) {
       mQueue.push(mText);
