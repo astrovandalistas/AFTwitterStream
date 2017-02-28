@@ -47,15 +47,27 @@ var client = new Twitter({
 
 client.stream('statuses/filter', {track: queryString, language: "en"}, function(stream){
   stream.on('data', function(tweet) {
-    var mText = tweet.text.replace(/RT /g, "").replace(/["{}<>().…?!,;|\-]/g, "").replace(/[#@]\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2").replace(/in a long distance relationship/ig, "distant").replace(/a long distance relationship/ig, "distance").replace(/\s+/g, " ").trim();
+    var mText = tweet.text.replace(/RT /g, "");
+    mText = mText.replace(/["{}<>().!,;|\-]/g, "");
+    mText = mText.replace(/[#@]\S+/g, "");
+    mText = mText.replace(/http(s?):\/\/\S+/g, "");
+    mText = mText.replace(/b\/c/g, "because");
+    mText = mText.replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2");
+    mText = mText.replace(/\S+…/g, "");
+    mText = mText.replace(/in a long distance relationship/ig, "distant");
+    mText = mText.replace(/(a )?long distance relationship[s]?/ig, "distance");
+    mText = mText.replace(/\s+/g, " ");
+    mText = mText.trim();
 
-    if(mQueue.length < QUEUE_SIZE) {
-      mQueue.push(mText);
-    } else {
-      mQueue[insertIndex] = mText;
-      insertIndex = (insertIndex + 1)%mQueue.length;
+    if(mText.length > 0) {
+      console.log(mText);
+      if(mQueue.length < QUEUE_SIZE) {
+        mQueue.push(mText);
+      } else {
+        mQueue[insertIndex] = mText;
+        insertIndex = (insertIndex + 1)%mQueue.length;
+      }
     }
-    console.log(mText);
   });
 
   stream.on('error', function(error) {
