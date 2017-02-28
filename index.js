@@ -7,6 +7,7 @@ dotenv.load();
 var port = process.env.PORT || 8080;
 var app = express();
 
+// https://dev.twitter.com/streaming/overview/request-parameters
 var queryString = "alienating, hatemyjob, distance relationship";
 
 var insertIndex = 0;
@@ -28,7 +29,7 @@ var client = new Twitter({
 
 client.stream('statuses/filter', {track: queryString}, function(stream){
   stream.on('data', function(tweet) {
-    var mText = tweet.text.replace(/RT /g, "").replace(/["{}<>().…?!,;\-#]/g, "").replace(/@\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2").replace(/distance relationship/ig, "distance").replace(/\s+/g, " ").trim();
+    var mText = tweet.text.replace(/RT /g, "").replace(/["{}<>().…?!,;\-#]/g, "").replace(/@\S+/g, "").replace(/http(s?):\/\/\S+/g, "").replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2").replace(/in a long distance relationship/ig, "distant").replace(/a long distance relationship/ig, "distance").replace(/\s+/g, " ").trim();
 
     if(mQueue.length < QUEUE_SIZE) {
       mQueue.push(mText);
