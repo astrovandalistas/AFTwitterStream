@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 var Twitter = require('twitter');
 var dotenv = require('dotenv');
 
@@ -6,6 +7,13 @@ dotenv.load();
 
 var port = process.env.PORT || 8080;
 var app = express();
+
+var corsOptions = {
+  origin: process.env.CORS_ORIGIN,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 // https://dev.twitter.com/streaming/overview/request-parameters
 var queryString = "alienating, hate my job, distance relationship, capitalism jobs, art money";
