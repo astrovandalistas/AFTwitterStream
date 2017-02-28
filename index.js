@@ -16,7 +16,17 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 // https://dev.twitter.com/streaming/overview/request-parameters
-var queryString = "alienating, hate my job, distance relationship, capitalism jobs, art money";
+var queries = [
+  "alienating",
+  "hate my job",
+  "distance relationship",
+  "capitalism jobs",
+  "art money",
+  "making plans",
+  "#makingplans"
+];
+
+var queryString = queries.join(", ");
 
 var insertIndex = 0;
 var popIndex = 0;
