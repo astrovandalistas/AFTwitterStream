@@ -17,11 +17,13 @@ app.use(cors(corsOptions));
 
 // https://dev.twitter.com/streaming/overview/request-parameters
 var queries = [
-  "alienating",
-  "hate my job",
-  "distance relationship",
-  "capitalism jobs",
+  "alienating politics",
+  "job hate",
+  "distant love",
+  "capitalism job",
   "art money",
+  "fake politics",
+  "alternative wars",
   "making plans",
   "#makingplans"
 ];
@@ -32,10 +34,7 @@ var insertIndex = 0;
 var popIndex = 0;
 var QUEUE_SIZE = 64;
 var mQueue = [
-  "Unhappily submitting to the Machine destroys your soul not all at once but over time",
-  "Once the realization is accepted that even between the closest human beings infinite distances continue",
-  "We are made aware of our need to assimilate with something far beyond ourselves by our insatiable longing",
-  "I hate my life and my job and my president and my country, but at least star wars 8 is just 10 months away"
+  "Unhappily submitting to the Machine destroys your soul not all at once but over time"
 ];
 
 var client = new Twitter({
@@ -54,8 +53,6 @@ client.stream('statuses/filter', {track: queryString, language: "en"}, function(
     mText = mText.replace(/b\/c/g, "because");
     mText = mText.replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2");
     mText = mText.replace(/\S+…/g, "");
-    mText = mText.replace(/in a long distance relationship/ig, "distant");
-    mText = mText.replace(/(a )?long distance relationship[s]?/ig, "distance");
     mText = mText.replace(/\s+/g, " ");
     mText = mText.trim();
 
