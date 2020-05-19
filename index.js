@@ -28,7 +28,7 @@ var queries = [
   "#makingplans"
 ];
 
-var queryString = queries.join(", ");
+var queryString = queries.join(",");
 
 var insertIndex = 0;
 var popIndex = 0;
