@@ -9,7 +9,7 @@ var port = process.env.PORT || 8080;
 var app = express();
 
 var corsOptions = {
-  origin: process.env.CORS_ORIGIN,
+  origin: [ process.env.CORS_ORIGIN, process.env.CORS_ORIGIN_TEST ],
   optionsSuccessStatus: 200
 };
 
