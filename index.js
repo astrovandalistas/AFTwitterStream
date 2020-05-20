@@ -1,59 +1,50 @@
-var express = require('express');
-var cors = require('cors');
-var Twitter = require('twitter');
-var dotenv = require('dotenv');
+const express = require('express');
+const cors = require('cors');
+const Twitter = require('twitter');
+const dotenv = require('dotenv');
+
+const { QUERIES } = require('./queries');
 
 dotenv.load();
 
-var port = process.env.PORT || 8080;
-var app = express();
+const port = process.env.PORT || 8080;
+const app = express();
 
-var corsOptions = {
+const corsOptions = {
   origin: [ process.env.CORS_ORIGIN, process.env.CORS_ORIGIN_TEST ],
   optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 
-// https://dev.twitter.com/streaming/overview/request-parameters
-var queries = [
-  "alienating politics",
-  "job hate",
-  "distant love",
-  "capitalism job",
-  "art money",
-  "fake politics",
-  "alternative wars",
-  "making plans",
-  "#makingplans"
+const LANG = 'en';
+const QUERY_STRING = QUERIES[LANG].join(',');
+
+const QUEUE_SIZE = 64;
+let insertIndex = 0;
+let popIndex = 0;
+const mQueue = [
+  'Unhappily submitting to the Machine destroys your soul not all at once but over time'
 ];
 
-var queryString = queries.join(",");
-
-var insertIndex = 0;
-var popIndex = 0;
-var QUEUE_SIZE = 64;
-var mQueue = [
-  "Unhappily submitting to the Machine destroys your soul not all at once but over time"
-];
-
-var client = new Twitter({
+const client = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
   access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-client.stream('statuses/filter', {track: queryString, language: "en"}, function(stream){
+// https://dev.twitter.com/streaming/overview/request-parameters
+client.stream('statuses/filter', {track: QUERY_STRING, language: LANG}, function(stream){
   stream.on('data', function(tweet) {
-    var mText = tweet.text.replace(/RT /g, "");
-    mText = mText.replace(/["{}<>().!,;|\-]/g, "");
-    mText = mText.replace(/[#@]\S+/g, "");
-    mText = mText.replace(/http(s?):\/\/\S+/g, "");
-    mText = mText.replace(/b\/c/g, "because");
-    mText = mText.replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, "$1 $2");
-    mText = mText.replace(/\S+…/g, "");
-    mText = mText.replace(/\s+/g, " ");
+    var mText = tweet.text.replace(/RT /g, '');
+    mText = mText.replace(/["{}<>().!,;|\-]/g, '');
+    mText = mText.replace(/[#@]\S+/g, '');
+    mText = mText.replace(/http(s?):\/\/\S+/g, '');
+    mText = mText.replace(/b\/c/g, 'because');
+    mText = mText.replace(/([a-zA-Z]+)\/([a-zA-Z]+)/g, '$1 $2');
+    mText = mText.replace(/\S+…/g, '');
+    mText = mText.replace(/\s+/g, ' ');
     mText = mText.trim();
 
     if(mText.length > 0) {
@@ -78,9 +69,9 @@ app.get('/AFT', function(req, res) {
 });
 
 app.get('/AFTALL', function(req, res) {
-  var queueString = "";
-  for(var i=0; i<mQueue.length; i++) {
-    queueString += mQueue[i]+",<br>";
+  let queueString = '';
+  for(let i=0; i<mQueue.length; i++) {
+    queueString += mQueue[i] + ',<br>';
   }
   res.send(queueString);
 });
