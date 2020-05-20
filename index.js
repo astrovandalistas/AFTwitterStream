@@ -3,7 +3,7 @@ const cors = require('cors');
 const Twitter = require('twitter');
 const dotenv = require('dotenv');
 
-const { QUERIES } = require('./queries');
+const { QUERIES, PHRASES } = require('./queries');
 
 dotenv.load();
 
@@ -17,15 +17,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-const LANG = 'en';
+const LANG = 'es';
 const QUERY_STRING = QUERIES[LANG].join(',');
+const mQueue = PHRASES[LANG];
 
 const QUEUE_SIZE = 64;
 let insertIndex = 0;
 let popIndex = 0;
-const mQueue = [
-  'Unhappily submitting to the Machine destroys your soul not all at once but over time'
-];
 
 const client = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
