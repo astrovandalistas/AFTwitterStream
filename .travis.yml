@@ -11,7 +11,7 @@ branches:
     - master
 
 script:
-  - echo "deploying"
+  - echo "deploying with travis"
 
 deploy:
   provider: heroku
